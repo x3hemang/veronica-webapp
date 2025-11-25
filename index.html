@@ -1,56 +1,24 @@
-<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Veronica — Buy 3 months</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <style>
-    body{background:#000;color:#fff;font-family:Inter,system-ui,Segoe UI,Arial;text-align:center;padding:32px}
-    button{padding:14px 24px;border-radius:12px;border:0;font-size:18px;background:#2AABEE;color:#fff;cursor:pointer}
-    h2{font-size:28px;margin-bottom:6px}
-    p{margin-top:0;margin-bottom:20px}
-  </style>
-</head>
-<body>
-  <h2>Veronica — 3 months access</h2>
-  <p>Price: <strong>1 ⭐</strong></p>
-  <button id="buy">Buy Now ⭐</button>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <script>
-  const tg = window.Telegram.WebApp;
-  // optional: expand the webapp canvas in Telegram
-  try { tg.expand(); } catch(e){ /* ignore outside Telegram */ }
+const tg = window.Telegram.WebApp;
 
-  const BOT_ID = 8293127824; // numeric id of @VeronicaVibes_bot
-  const N8N_LOG_HOOK = "https://n8n-n8n.0tci2z.easypanel.host/webhook/63f91ba7-22ad-44d3-bba2-919dc7b8f2b5"; // replace if changed
+// Required!
+tg.ready();
 
-  document.getElementById('buy').onclick = async () => {
-    // Use initDataUnsafe.user.id (Telegram injects initData client side)
-    const user = tg.initDataUnsafe && tg.initDataUnsafe.user;
-    if (!user || !user.id) {
-      alert("Could not detect Telegram user. Open this from the Telegram app/browser.");
-      return;
-    }
-    const userId = user.id.toString();
+// Check if Telegram passed initData
+if (!tg.initDataUnsafe.user) {
+  alert("Not launched via Telegram. Please tap the button inside the bot.");
+}
 
-    // Optional: ping n8n to log the open (helps debugging)
-    fetch(N8N_LOG_HOOK, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ event: 'invoice_requested', userId, timestamp: Date.now() })
-    }).catch(()=>{});
-
-    // Open Stars invoice via WebApp API
-    tg.openInvoice({
-      bot_id: BOT_ID,
-      title: "Veronica – 3 months access",
-      description: "Unlock Veronica access for 3 months.",
-      currency: "XTR",                 // required for Stars
-      prices: [{ label: "Access", amount: 1 }],
-      payload: `${userId}:veronica_3m` // include user id so your bot can identify
-    });
-  };
+// Open Stars payment
+document.getElementById("buy").onclick = () => {
+  tg.openInvoice({
+    title: "Veronica – 3 months access",
+    description: "Unlock Veronica for 3 months.",
+    payload: "veronica_3m",
+    currency: "XTR",
+    prices: [{ label: "Access", amount: 1 }]
+  });
+};
 </script>
-</body>
-</html>
