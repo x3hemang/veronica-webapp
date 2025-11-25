@@ -1,39 +1,41 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Veronica – 3 months access</title>
+    <style>
+      body {
+        background: #000;
+        color: #fff;
+        font-family: sans-serif;
+        text-align: center;
+        padding: 40px;
+      }
+      .btn {
+        padding: 15px 25px;
+        border-radius: 12px;
+        border: none;
+        font-size: 18px;
+        background: #2AABEE;
+        color: #fff;
+        cursor: pointer;
+      }
+    </style>
   </head>
 
-  <body style="background:#000; color:#fff; font-family:sans-serif; text-align:center; padding:40px;">
+  <body>
     <h2>Veronica – 3 months access</h2>
     <p>Price: 1 ⭐</p>
 
-    <button id="buy" style="
-      padding:15px 25px;
-      border-radius:12px;
-      border:none;
-      font-size:18px;
-      background:#2AABEE;
-      color:#fff;
-    ">
-      Buy Now ⭐
-    </button>
+    <button class="btn" onclick="buy()">Buy Now ⭐</button>
 
     <script>
-      const tg = window.Telegram.WebApp;
+      function buy() {
+        const bot = "veronica_stars_bot"; // ← change this to your bot username
 
-      document.getElementById("buy").onclick = () => {
-        tg.openInvoice({
-          bot_id: 8293127824,
-          title: "Veronica – 3 months access",
-          description: "Unlock Veronica for 3 months.",
-          currency: "XTR",
-          prices: [{ label: "Access", amount: 1 }],
-          payload: "veronica_3m"
-        });
-      };
-
-      tg.expand();
+        // This opens Telegram and triggers "/start veronica_3m"
+        window.location.href = `https://t.me/${bot}?start=veronica_3m`;
+      }
     </script>
   </body>
 </html>
